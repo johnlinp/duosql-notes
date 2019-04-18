@@ -1,0 +1,21 @@
+# connect command
+connect: mssql -u sa -p Top5ecret
+
+# create table and populate data
+left: DROP TABLE IF EXISTS person;
+left: CREATE TABLE person (id INT IDENTITY, name VARCHAR(255) NOT NULL, age INT NOT NULL, PRIMARY KEY (id));
+left: INSERT INTO person (name, age) VALUES ('John Lin', 29);
+
+# start left transaction
+left: SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+left: BEGIN TRANSACTION;
+left: SELECT * FROM person WHERE age BETWEEN 10 AND 30;
+
+# start right transaction
+right: BEGIN TRANSACTION;
+right: INSERT INTO person (name, age) VALUES ('Bundy Hsieh', 24);
+right: COMMIT;
+
+# continue left transaction
+# note: this query WILL NOT product photom reads. see https://stackoverflow.com/questions/5444915/
+left: SELECT * FROM person WHERE age BETWEEN 10 AND 30;
