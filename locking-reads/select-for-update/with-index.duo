@@ -1,0 +1,16 @@
+# connect command
+connect: mysql -ujohnlinp -psecret somedb
+
+# create table and populate data
+left: DROP TABLE IF EXISTS person;
+left: CREATE TABLE person (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, PRIMARY KEY (id));
+left: INSERT INTO person (name) VALUES ('John Lin');
+left: INSERT INTO person (name) VALUES ('Bundy Hsieh');
+
+# start left transaction
+left: BEGIN;
+left: SELECT * FROM person where id = 1 FOR UPDATE;
+
+# start right transaction
+right: BEGIN;
+right: SELECT * FROM person where id = 2 FOR UPDATE;

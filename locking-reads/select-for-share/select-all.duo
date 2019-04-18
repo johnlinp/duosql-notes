@@ -1,0 +1,15 @@
+# connect command
+connect: mysql -ujohnlinp -psecret somedb
+
+# create table and populate data
+left: DROP TABLE IF EXISTS person;
+left: CREATE TABLE person (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, PRIMARY KEY (id));
+left: INSERT INTO person (name) VALUES ('John Lin');
+
+# start left transaction
+left: BEGIN;
+left: SELECT COUNT(*) FROM person LOCK IN SHARE MODE;
+
+# start right transaction
+right: BEGIN;
+right: SELECT COUNT(*) FROM person LOCK IN SHARE MODE;
