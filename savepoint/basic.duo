@@ -1,0 +1,19 @@
+# connect command
+connect: mysql -ujohnlinp -psecret somedb
+
+# create table and populate data
+left: DROP TABLE IF EXISTS person;
+left: CREATE TABLE person (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, age INT NOT NULL, PRIMARY KEY (id));
+left: INSERT INTO person (name, age) VALUES ('John Lin', 29);
+left: INSERT INTO person (name, age) VALUES ('Bundy Hsieh', 24);
+left: INSERT INTO person (name, age) VALUES ('Winnie Ho', 17);
+
+# start transaction
+left: BEGIN;
+left: UPDATE person SET age = 30 WHERE id = 1;
+left: SAVEPOINT somepoint;
+left: UPDATE person SET age = 25 WHERE id = 2;
+left: ROLLBACK TO somepoint;
+left: UPDATE person SET age = 18 WHERE id = 3;
+left: COMMIT;
+left: SELECT * FROM person;
