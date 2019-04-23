@@ -37,12 +37,14 @@ However, there are still some special cases are in Microsoft SQL Server.
 
 #### Select for Update
 
-- [select-all.duo](locking-reads/select-for-update/select-all.duo): Both transactions select all.
+- [update-while-updating-all.duo](locking-reads/select-for-update/update-while-updating-all.duo): Update a row while another transaction is selecting for update.
+- [select-while-updating-all.duo](locking-reads/select-for-update/select-while-updating-all.duo): Select all rows while another transaction is selecting for update.
+- [both-select-all.duo](locking-reads/select-for-update/both-select-all.duo): Both transactions select all.
 - [with-index.duo](locking-reads/select-for-update/with-index.duo): Both transactions select by an index column.
 - [no-index.duo](locking-reads/select-for-update/no-index.duo): Both transactions select by a non-index column.
 - [with-index-deadlock.duo](locking-reads/select-for-update/with-index-deadlock.duo): Both transactions select by an index column and produce deadlock.
 
 #### Select for Share
 
-- [select-all.duo](locking-reads/select-for-share/select-all.duo): Both transactions select all.
+- [both-select-all.duo](locking-reads/select-for-share/both-select-all.duo): Both transactions select all.
 - [another-insert.duo](locking-reads/select-for-share/another-insert.duo): One transaction select for share, another insert.
