@@ -1,0 +1,26 @@
+# connect command
+connect: mysql -ujohnlinp -psecret somedb
+
+# create table and populate data
+# the example is inspired from https://vladmihalcea.com/a-beginners-guide-to-read-and-write-skew-phenomena/
+left: DROP TABLE IF EXISTS post_details, post;
+left: CREATE TABLE post (id INT NOT NULL AUTO_INCREMENT, title VARCHAR(255) NOT NULL, PRIMARY KEY (id));
+left: CREATE TABLE post_details (id INT NOT NULL, tags VARCHAR(255) NOT NULL, FOREIGN KEY (id) REFERENCES post (id));
+left: INSERT INTO post (title) VALUES ('Transactions');
+left: INSERT INTO post_details (id, tags) VALUES (1, 'reliable, atomic');
+
+# start left transaction
+left: BEGIN;
+left: SELECT * FROM post WHERE id = 1;
+left: SELECT * FROM post_details WHERE id = 1;
+
+# start right transaction
+right: BEGIN;
+right: SELECT * FROM post WHERE id = 1;
+right: SELECT * FROM post_details WHERE id = 1;
+right: UPDATE post SET title = 'Credit Card Transactions';
+right: COMMIT;
+
+# continue left transaction
+left: UPDATE post_details SET tags = 'reliable, atomic, database';
+left: COMMIT;
