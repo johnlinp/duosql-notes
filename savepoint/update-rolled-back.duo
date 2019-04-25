@@ -2,17 +2,17 @@
 connect: mysql -ujohnlinp -psecret somedb
 
 # create table and populate data
-left: DROP TABLE IF EXISTS person;
-left: CREATE TABLE person (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, age INT NOT NULL, PRIMARY KEY (id));
-left: INSERT INTO person (name, age) VALUES ('John Lin', 29);
+left: DROP TABLE IF EXISTS bank_account;
+left: CREATE TABLE bank_account (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, money INT NOT NULL, PRIMARY KEY (id));
+left: INSERT INTO bank_account (name, money) VALUES ('Alice', 600);
 
 # start left transaction
 left: BEGIN;
 left: SAVEPOINT somepoint;
-left: UPDATE person SET age = 30 WHERE id = 1;
+left: UPDATE bank_account SET money = 300 WHERE id = 1;
 left: ROLLBACK TO somepoint;
 
 # start right transaction
 right: BEGIN;
 # should not be successful. see https://bugs.mysql.com/bug.php?id=95049
-right: UPDATE person SET age = 40 WHERE id = 1;
+right: UPDATE bank_account SET money = 400 WHERE id = 1;

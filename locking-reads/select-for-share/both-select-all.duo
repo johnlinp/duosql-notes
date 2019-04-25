@@ -2,14 +2,14 @@
 connect: mysql -ujohnlinp -psecret somedb
 
 # create table and populate data
-left: DROP TABLE IF EXISTS person;
-left: CREATE TABLE person (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, PRIMARY KEY (id));
-left: INSERT INTO person (name) VALUES ('John Lin');
+left: DROP TABLE IF EXISTS bank_account;
+left: CREATE TABLE bank_account (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, money INT NOT NULL, PRIMARY KEY (id));
+left: INSERT INTO bank_account (name, money) VALUES ('Alice', 600);
 
 # start left transaction
 left: BEGIN;
-left: SELECT COUNT(*) FROM person LOCK IN SHARE MODE;
+left: SELECT COUNT(*) FROM bank_account LOCK IN SHARE MODE;
 
 # start right transaction
 right: BEGIN;
-right: SELECT COUNT(*) FROM person LOCK IN SHARE MODE;
+right: SELECT COUNT(*) FROM bank_account LOCK IN SHARE MODE;

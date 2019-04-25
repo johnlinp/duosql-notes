@@ -2,18 +2,18 @@
 connect: mysql -ujohnlinp -psecret somedb
 
 # create table and populate data
-left: DROP TABLE IF EXISTS person;
-left: CREATE TABLE person (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, age INT NOT NULL, PRIMARY KEY (id));
-left: INSERT INTO person (name, age) VALUES ('John Lin', 29);
-left: INSERT INTO person (name, age) VALUES ('Bundy Hsieh', 24);
-left: INSERT INTO person (name, age) VALUES ('Winnie Ho', 17);
+left: DROP TABLE IF EXISTS bank_account;
+left: CREATE TABLE bank_account (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, money INT NOT NULL, PRIMARY KEY (id));
+left: INSERT INTO bank_account (name, money) VALUES ('Alice', 600);
+left: INSERT INTO bank_account (name, money) VALUES ('Bob', 500);
+left: INSERT INTO bank_account (name, money) VALUES ('Carol', 300);
 
 # start transaction
 left: BEGIN;
-left: UPDATE person SET age = 30 WHERE id = 1;
+left: UPDATE bank_account SET money = 300 WHERE id = 1;
 left: SAVEPOINT somepoint;
-left: UPDATE person SET age = 25 WHERE id = 2;
+left: UPDATE bank_account SET money = 700 WHERE id = 2;
 left: ROLLBACK TO somepoint;
-left: UPDATE person SET age = 18 WHERE id = 3;
+left: UPDATE bank_account SET money = 800 WHERE id = 3;
 left: ROLLBACK;
-left: SELECT * FROM person;
+left: SELECT * FROM bank_account;

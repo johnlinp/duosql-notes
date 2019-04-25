@@ -2,20 +2,20 @@
 connect: mysql -ujohnlinp -psecret somedb
 
 # create table and populate data
-left: DROP TABLE IF EXISTS person;
-left: CREATE TABLE person (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, age INT NOT NULL, PRIMARY KEY (id));
-left: INSERT INTO person (name, age) VALUES ('John Lin', 29);
+left: DROP TABLE IF EXISTS bank_account;
+left: CREATE TABLE bank_account (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, money INT NOT NULL, PRIMARY KEY (id));
+left: INSERT INTO bank_account (name, money) VALUES ('Alice', 600);
 
 # start left transaction
 left: SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 left: BEGIN;
-left: SELECT * FROM person WHERE age BETWEEN 10 AND 30;
+left: SELECT * FROM bank_account WHERE money BETWEEN 100 AND 900;
 
 # start right transaction
 right: BEGIN;
-right: INSERT INTO person (name, age) VALUES ('Bundy Hsieh', 24);
+right: INSERT INTO bank_account (name, money) VALUES ('Bob', 500);
 right: COMMIT;
 
 # continue left transaction
 # note: this query WILL NOT product photom reads. see https://stackoverflow.com/questions/5444915/
-left: SELECT * FROM person WHERE age BETWEEN 10 AND 30;
+left: SELECT * FROM bank_account WHERE money BETWEEN 100 AND 900;

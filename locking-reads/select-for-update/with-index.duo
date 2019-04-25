@@ -2,15 +2,15 @@
 connect: mysql -ujohnlinp -psecret somedb
 
 # create table and populate data
-left: DROP TABLE IF EXISTS person;
-left: CREATE TABLE person (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, PRIMARY KEY (id));
-left: INSERT INTO person (name) VALUES ('John Lin');
-left: INSERT INTO person (name) VALUES ('Bundy Hsieh');
+left: DROP TABLE IF EXISTS bank_account;
+left: CREATE TABLE bank_account (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, money INT NOT NULL, PRIMARY KEY (id));
+left: INSERT INTO bank_account (name, money) VALUES ('Alice', 600);
+left: INSERT INTO bank_account (name, money) VALUES ('Bob', 500);
 
 # start left transaction
 left: BEGIN;
-left: SELECT * FROM person where id = 1 FOR UPDATE;
+left: SELECT * FROM bank_account where id = 1 FOR UPDATE;
 
 # start right transaction
 right: BEGIN;
-right: SELECT * FROM person where id = 2 FOR UPDATE;
+right: SELECT * FROM bank_account where id = 2 FOR UPDATE;
