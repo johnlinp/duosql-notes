@@ -9,14 +9,14 @@ left: INSERT INTO bank_account (name, money) VALUES ('Alice', 600);
 # start left transaction
 left: SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 left: BEGIN;
-left: SELECT money FROM bank_account WHERE id = 1;
+left: SELECT * FROM bank_account WHERE id = 1;
 
 # start right transaction
 right: BEGIN;
 right: UPDATE bank_account SET money = 300 WHERE id = 1;
 
 # continue left transaction
-left: SELECT money FROM bank_account WHERE id = 1;
+left: SELECT * FROM bank_account WHERE id = 1;
 
 # continue right transaction
 right: ROLLBACK;
