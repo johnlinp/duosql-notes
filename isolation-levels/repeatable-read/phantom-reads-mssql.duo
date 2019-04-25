@@ -17,5 +17,4 @@ right: INSERT INTO bank_account (name, money) VALUES ('Bob', 500);
 right: COMMIT;
 
 # continue left transaction
-# note: this query WILL NOT product photom reads. see https://stackoverflow.com/questions/5444915/
 left: SELECT * FROM bank_account WHERE money BETWEEN 100 AND 900;
