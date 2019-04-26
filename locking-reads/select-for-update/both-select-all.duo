@@ -8,8 +8,8 @@ left: INSERT INTO bank_account (name, money) VALUES ('Alice', 600);
 
 # start left transaction
 left: BEGIN;
-left: SELECT COUNT(*) FROM bank_account FOR UPDATE;
+left: SELECT * FROM bank_account FOR UPDATE;
 
 # start right transaction
 right: BEGIN;
-right: SELECT COUNT(*) FROM bank_account FOR UPDATE;
+right: SELECT * FROM bank_account FOR UPDATE;

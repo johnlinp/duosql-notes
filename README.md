@@ -39,10 +39,12 @@ However, there are still some special cases are in Microsoft SQL Server.
 
 - [update-while-updating-all.duo](locking-reads/select-for-update/update-while-updating-all.duo): Update a row while another transaction is selecting for update.
 - [select-while-updating-all.duo](locking-reads/select-for-update/select-while-updating-all.duo): Select all rows while another transaction is selecting for update.
+- [insert-while-counting-all.duo](locking-reads/select-for-update/insert-while-counting-all.duo): Insert a row while another transaction is counting all the rows.
 - [both-select-all.duo](locking-reads/select-for-update/both-select-all.duo): Both transactions select all.
 - [with-index.duo](locking-reads/select-for-update/with-index.duo): Both transactions select by an index column.
 - [no-index.duo](locking-reads/select-for-update/no-index.duo): Both transactions select by a non-index column.
 - [with-index-deadlock.duo](locking-reads/select-for-update/with-index-deadlock.duo): Both transactions select by an index column and produce deadlock.
+
 
 #### Select for Share
 

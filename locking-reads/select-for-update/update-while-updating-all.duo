@@ -5,11 +5,12 @@ connect: mysql -ujohnlinp -psecret somedb
 left: DROP TABLE IF EXISTS bank_account;
 left: CREATE TABLE bank_account (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, money INT NOT NULL, PRIMARY KEY (id));
 left: INSERT INTO bank_account (name, money) VALUES ('Alice', 600);
+left: INSERT INTO bank_account (name, money) VALUES ('Bob', 500);
 
 # start left transaction
 left: BEGIN;
-left: SELECT COUNT(*) FROM bank_account FOR UPDATE;
+left: SELECT * FROM bank_account FOR UPDATE;
 
 # start right transaction
 right: BEGIN;
-right: UPDATE bank_account SET name = 'Bob';
+right: UPDATE bank_account SET money = 300 WHERE id = 1;

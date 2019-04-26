@@ -8,8 +8,8 @@ left: INSERT INTO bank_account (name, money) VALUES ('Alice', 600);
 
 # start left transaction
 left: BEGIN;
-left: SELECT * FROM bank_account LOCK IN SHARE MODE;
+left: SELECT COUNT(*) FROM bank_account FOR UPDATE;
 
 # start right transaction
 right: BEGIN;
-right: SELECT * FROM bank_account LOCK IN SHARE MODE;
+right: INSERT INTO bank_account (name, money) VALUES ('Bob', 500);
